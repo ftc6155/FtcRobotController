@@ -29,10 +29,13 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * This OpMode ramps a single motor speed up and down repeatedly until Stop is pressed.
@@ -47,26 +50,33 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 @TeleOp(name = "Concept: Ramp Motor Speed", group = "Concept")
-@Disabled
+//@Disabled
 public class ConceptRampMotorSpeed extends LinearOpMode {
 
-    static final double INCREMENT   = 0.01;     // amount to ramp motor each CYCLE_MS cycle
+    static final double INCREMENT   = 0.05;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
     static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
     static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
 
     // Define class members
-    DcMotor motor;
+    DcMotor motorRF,motorRB,motorLF,motorLB;
     double  power   = 0;
     boolean rampUp  = true;
-
+    double input;
 
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // Connect to motor (Assume standard left wheel)
         // Change the text in quotes to match any motor name on your robot.
-        motor = hardwareMap.get(DcMotor.class, "left_drive");
+        motorRB = hardwareMap.get(DcMotor.class, "RB");
+        motorRB.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorRF = hardwareMap.get(DcMotor.class, "RF");
+        motorRF.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motorLB = hardwareMap.get(DcMotor.class, "LB");
+        motorLF = hardwareMap.get(DcMotor.class, "LF");
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
@@ -75,14 +85,14 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
 
         // Ramp motor speeds till stop pressed.
         while(opModeIsActive()) {
-
+            power = -gamepad1.left_stick_y;
             // Ramp the motors, according to the rampUp variable.
-            if (rampUp) {
+            /* if (rampUp) {
                 // Keep stepping up until we hit the max value.
                 power += INCREMENT ;
-                if (power >= MAX_FWD ) {
-                    power = MAX_FWD;
-                    rampUp = !rampUp;   // Switch ramp direction
+                if (power >= input ) {
+                    power = input;
+                   //rampUp = !rampUp;   // Switch ramp direction
                 }
             }
             else {
@@ -92,21 +102,30 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
                     power = MAX_REV;
                     rampUp = !rampUp;  // Switch ramp direction
                 }
-            }
+            } */
 
             // Display the current value
-            telemetry.addData("Motor Power", "%5.2f", power);
-            telemetry.addData(">", "Press Stop to end test." );
+            telemetry.addData("1 RB Motor Power", "%5.2f", power);
+            //telemetry.addData("2 LB Motor Power", "%5.2f", power);
+            //telemetry.addData("3 LF Motor Power", "%5.2f", power);
+            //telemetry.addData("4 RF Motor Power", "%5.2f", power);
+            //telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 
             // Set the motor to the new power and pause;
-            motor.setPower(power);
+            motorRB.setPower(power);
+            motorLB.setPower(power);
+            motorLF.setPower(power);
+            motorRF.setPower(power);
             sleep(CYCLE_MS);
             idle();
         }
 
         // Turn off motor and signal done;
-        motor.setPower(0);
+        motorRB.setPower(0);
+        motorLB.setPower(0);
+        motorLF.setPower(0);
+        motorRF.setPower(0);
         telemetry.addData(">", "Done");
         telemetry.update();
 
