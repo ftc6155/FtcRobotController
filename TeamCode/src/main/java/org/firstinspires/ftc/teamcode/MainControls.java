@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -48,6 +48,7 @@ public class MainControls extends LinearOpMode {
     static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
 
     // Define class members
+    Robot robot = new Robot(this);
     DcMotor motorRF,motorRB,motorLF,motorLB;
     double  powery,powerx,powerw   = 0;
     boolean rampUp  = true;
@@ -57,13 +58,13 @@ public class MainControls extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        motorRB = hardwareMap.get(DcMotor.class, "RB");
-        motorRF = hardwareMap.get(DcMotor.class, "RF");
+        //motorRB = hardwareMap.get(DcMotor.class, "RB");
+        //motorRF = hardwareMap.get(DcMotor.class, "RF");
 
-        motorLB = hardwareMap.get(DcMotor.class, "LB");
-        motorLF = hardwareMap.get(DcMotor.class, "LF");
-        motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
+        //motorLB = hardwareMap.get(DcMotor.class, "LB");
+        //motorLF = hardwareMap.get(DcMotor.class, "LF");
+        //motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
+        //motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // Wait for the start button
@@ -76,7 +77,7 @@ public class MainControls extends LinearOpMode {
             powery = gamepad1.left_stick_y;
             powerx = gamepad1.left_stick_x;
             powerw = gamepad1.right_stick_x;
-
+            robot.driveTrain.driveRobotCentric(powerx, powery, powerw);
 
             telemetry.addData("1   Powery", "%5.2f", powery);
             telemetry.addData("2   Powerx", "%5.2f", powerx);
@@ -85,15 +86,15 @@ public class MainControls extends LinearOpMode {
 
             telemetry.update();
 
-            motorRB.setPower(-powery + powerx - powerw);
+//            motorRB.setPower(-powery + powerx - powerw);
             telemetry.addData("4   RightBack", "%5.2f", -powery + powerx - powerw);
 
-            motorLF.setPower(-powery + powerx + powerw);
+  //          motorLF.setPower(-powery + powerx + powerw);
             telemetry.addData("5   LeftFront", "%5.2f", -powery + powerx + powerw);
 
-            motorLB.setPower(-powery - powerx + powerw);
+    //        motorLB.setPower(-powery - powerx + powerw);
             telemetry.addData("6   LeftBack", "%5.2f", -powery - powerx + powerw);
-            motorRF.setPower(-powery - powerx - powerw);
+      //      motorRF.setPower(-powery - powerx - powerw);
             telemetry.addData("7  RightFront", "%5.2f", -powery - powerx - powerw);
             sleep(CYCLE_MS);
             idle();
