@@ -36,20 +36,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
+
+import java.util.Iterator;
 
 
 @TeleOp(name = "Main Control", group = "Concept")
 //@Disabled
 public class MainControls extends LinearOpMode {
 
-    static final double INCREMENT   = 0.05;     // amount to ramp motor each CYCLE_MS cycle
     static final int    CYCLE_MS    =   50;     // period of each cycle
-    static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
-    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
 
     // Define class members
-    Robot robot = new Robot(this);
-    DcMotor motorRF,motorRB,motorLF,motorLB;
+    //Robot robot = new Robot(this);
+    //DcMotor motorRF,motorRB,motorLF,motorLB;
     double  powery,powerx,powerw   = 0;
     boolean rampUp  = true;
     double input;
@@ -65,7 +65,14 @@ public class MainControls extends LinearOpMode {
         //motorLF = hardwareMap.get(DcMotor.class, "LF");
         //motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
         //motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        HardwareDevice hd;
+        Iterator<HardwareDevice> it = hardwareMap.iterator();
+        while (it.hasNext()) {
+            hd = it.next();
+            telemetry.addData("device", hd.getDeviceName());
+            telemetry.update();
+            sleep(10000);
+        }
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
@@ -77,7 +84,7 @@ public class MainControls extends LinearOpMode {
             powery = gamepad1.left_stick_y;
             powerx = gamepad1.left_stick_x;
             powerw = gamepad1.right_stick_x;
-            robot.driveTrain.driveRobotCentric(powerx, powery, powerw);
+          //  robot.driveTrain.driveRobotCentric(powerx, powery, powerw);
 
             telemetry.addData("1   Powery", "%5.2f", powery);
             telemetry.addData("2   Powerx", "%5.2f", powerx);
@@ -101,10 +108,7 @@ public class MainControls extends LinearOpMode {
         }
 
         // Turn off motor and signal done;
-        motorRB.setPower(0);
-        motorLB.setPower(0);
-        motorLF.setPower(0);
-        motorRF.setPower(0);
+
         telemetry.addData(">", "Done");
         telemetry.update();
 
