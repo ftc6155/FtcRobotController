@@ -9,20 +9,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Robot {
     MecanumDrive driveTrain;
 
-
-    //motorRB = hardwareMap.get(DcMotor.class, "RB");
-    //motorRF = hardwareMap.get(DcMotor.class, "RF");
-
-    //motorLB = hardwareMap.get(DcMotor.class, "LB");
-    //motorLF = hardwareMap.get(DcMotor.class, "LF");
-
     public Robot(LinearOpMode opMode) {
-        driveTrain = new MecanumDrive(  new MotorEx(opMode.hardwareMap, "LF"),
-                                        new MotorEx(opMode.hardwareMap, "RF"),
-                                        new MotorEx(opMode.hardwareMap, "LB"),
-                                        new MotorEx(opMode.hardwareMap, "RB"));
 
-        //MecanumDrive mecanum = new MecanumDrive(frontLeft, frontRight,
-        //                                        backLeft, backRight);
+        driveTrain= new MecanumDrive(   new MotorEx(opMode.hardwareMap, "frontLeft"),
+                                        new MotorEx(opMode.hardwareMap, "frontRight"),
+                                        new MotorEx(opMode.hardwareMap, "backLeft"),
+                                        new MotorEx(opMode.hardwareMap, "backRight"));
     }
 }

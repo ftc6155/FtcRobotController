@@ -45,64 +45,38 @@ import java.util.Iterator;
 //@Disabled
 public class MainControls extends LinearOpMode {
 
-    static final int    CYCLE_MS    =   50;     // period of each cycle
+    Robot robot;
 
-    // Define class members
-    //Robot robot = new Robot(this);
-    //DcMotor motorRF,motorRB,motorLF,motorLB;
+    static final int    CYCLE_MS    =   50;     // period of each cycle
     double  powery,powerx,powerw   = 0;
-    boolean rampUp  = true;
-    double input;
 
     @Override
     public void runOpMode() {
+        robot = new Robot(this);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        //motorRB = hardwareMap.get(DcMotor.class, "RB");
-        //motorRF = hardwareMap.get(DcMotor.class, "RF");
-
-        //motorLB = hardwareMap.get(DcMotor.class, "LB");
-        //motorLF = hardwareMap.get(DcMotor.class, "LF");
-        //motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
-        //motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
-        HardwareDevice hd;
-        Iterator<HardwareDevice> it = hardwareMap.iterator();
-        while (it.hasNext()) {
-            hd = it.next();
-            telemetry.addData("device", hd.getDeviceName());
-            telemetry.update();
-            sleep(10000);
-        }
-
-        // Wait for the start button
+              // Wait for the start button
         telemetry.addData(">", "Press Start to run Motors." );
         telemetry.update();
         waitForStart();
 
-        // Ramp motor speeds till stop pressed.
         while(opModeIsActive()) {
             powery = gamepad1.left_stick_y;
             powerx = gamepad1.left_stick_x;
             powerw = gamepad1.right_stick_x;
-          //  robot.driveTrain.driveRobotCentric(powerx, powery, powerw);
-
-            telemetry.addData("1   Powery", "%5.2f", powery);
-            telemetry.addData("2   Powerx", "%5.2f", powerx);
-            telemetry.addData("3   Powerw", "%5.2f", powerw);
-
-
-            telemetry.update();
+            robot.driveTrain.driveRobotCentric(-powerx, powery, -powerw);
 
 //            motorRB.setPower(-powery + powerx - powerw);
-            telemetry.addData("4   RightBack", "%5.2f", -powery + powerx - powerw);
+//            telemetry.addData("4   RightBack", "%5.2f", -powery + powerx - powerw);
 
   //          motorLF.setPower(-powery + powerx + powerw);
-            telemetry.addData("5   LeftFront", "%5.2f", -powery + powerx + powerw);
+//            telemetry.addData("5   LeftFront", "%5.2f", -powery + powerx + powerw);
 
     //        motorLB.setPower(-powery - powerx + powerw);
-            telemetry.addData("6   LeftBack", "%5.2f", -powery - powerx + powerw);
+ //           telemetry.addData("6   LeftBack", "%5.2f", -powery - powerx + powerw);
       //      motorRF.setPower(-powery - powerx - powerw);
-            telemetry.addData("7  RightFront", "%5.2f", -powery - powerx - powerw);
+ //           telemetry.addData("7  RightFront", "%5.2f", -powery - powerx - powerw);
+
             sleep(CYCLE_MS);
             idle();
         }
