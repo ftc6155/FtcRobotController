@@ -11,9 +11,9 @@ public class Robot {
 
     public Robot(LinearOpMode opMode) {
 
-        driveTrain= new MecanumDrive(   new MotorEx(opMode.hardwareMap, "frontLeft"),
-                                        new MotorEx(opMode.hardwareMap, "frontRight"),
-                                        new MotorEx(opMode.hardwareMap, "backLeft"),
-                                        new MotorEx(opMode.hardwareMap, "backRight"));
+        driveTrain= new MecanumDrive(   new MotorEx(opMode.hardwareMap, "LF"),
+                                        new MotorEx(opMode.hardwareMap, "RF"),
+                                        new MotorEx(opMode.hardwareMap, "LB"),
+                                        new MotorEx(opMode.hardwareMap, "RB"));
     }
 }
