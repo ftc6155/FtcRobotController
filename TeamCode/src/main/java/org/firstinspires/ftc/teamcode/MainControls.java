@@ -31,6 +31,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.kinematics.HolonomicOdometry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -44,6 +46,14 @@ import java.util.Iterator;
 @TeleOp(name = "Main Control", group = "Concept")
 //@Disabled
 public class MainControls extends LinearOpMode {
+    public static final double TRACKWIDTH = 4.75;
+    public static final double CENTER_WHEEL_OFFSET = -7.75;
+    public static final double WHEEL_DIAMETER = 2.0;
+    public static final double TICKS_PER_REV = 8192;
+    public static final double DISTANCE_PER_PULSE = Math.PI * WHEEL_DIAMETER / TICKS_PER_REV;
+    private Motor.Encoder leftOdometer, rightOdometer, centerOdometer;
+    private HolonomicOdometry odometry;
+
 
     Robot robot;
 
